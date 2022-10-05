@@ -6,7 +6,22 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
+
+type Fetch struct {
+	url    string
+	client *http.Client
+}
+
+func New() (*Fetch, error) {
+	return &Fetch{
+		url: os.Getenv("API_BASE_URL"),
+		client: &http.Client{
+			Timeout: time.Second * 60,
+		},
+	}, nil
+}
 
 func initRouter(mux *http.ServeMux) error {
 	mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
