@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"wallet-server/helpers"
+	"wallet-server/models"
 )
 
 func PingHandler(writer http.ResponseWriter, request *http.Request) {
@@ -71,5 +72,11 @@ func CreateWalletHandler(writer http.ResponseWriter, request *http.Request) {
 	body := request.Body
 	decodedBody := json.NewDecoder(body)
 	decodedBody.DisallowUnknownFields()
+	wallet := models.NewWallet{}
+	err = decodedBody.Decode(&wallet)
+	if err != nil {
+		log.Fatalf("error while decoding payload: %s", err)
+		return
+	}
 
 }
