@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"wallet-server/helpers"
-	"wallet-server/models"
+	"wallet-server/internal/models"
 )
 
 func PingHandler(writer http.ResponseWriter, request *http.Request) {
