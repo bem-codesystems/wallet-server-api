@@ -1,5 +1,17 @@
-FROM golang:onbuild
+FROM golang:alpine AS builder
 
-EXPOSE 3000
+WORKDIR /app
 
-CMD ["wallet-server"]
+COPY . ./
+
+RUN go build -o main main.go
+
+FROM alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/main .
+
+EXPOSE 4000
+
+CMD ["/app/main"]
