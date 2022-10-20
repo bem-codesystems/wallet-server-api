@@ -1,17 +1,15 @@
-FROM golang:alpine AS builder
+FROM golang:1.16-alpine3.13 AS builder
 
-WORKDIR /app
+ADD . /go/src/wallet-server
 
-COPY . ./
+WORKDIR /go/src/wallet-server
 
-RUN go build -o main main.go
+RUN go mod init wallet-server
 
-FROM alpine
+RUN go mod tidy
 
-WORKDIR /app
-
-COPY --from=builder /app/main .
+RUN go build -o wallet-server main.go
 
 EXPOSE 4000
 
-CMD ["/app/main"]
+CMD ["./wallet-server"]
