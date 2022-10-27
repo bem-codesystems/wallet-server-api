@@ -16,7 +16,7 @@ func main() {
 
 	addr := flag.String("addr", ":4000", "Server Network Address")
 
-	dsn := flag.String("dsn", "user:pass@/dbname?parseTime=true", "Data Source Name")
+	dsn := flag.String("dsn", "root:mypassword@/snippetbox?parseTime=true", "Data Source Name")
 
 	flag.Parse()
 

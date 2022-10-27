@@ -6,7 +6,7 @@ type Transaction struct {
 	Id              string  `json:"id"`
 	TransactionType uint    `json:"transaction_type"`
 	Value           float32 `json:"value"`
-	WalletId        string  `json:"wallet_id"`
+	WalletID        string  `json:"wallet_id"`
 }
 
 type TransactionModel struct {

@@ -2,7 +2,9 @@ package helpers
 
 import (
 	"errors"
+	"math/rand"
 	"net/http"
+	"time"
 )
 
 func CheckRequestMethod(request *http.Request, allowedMethod string) (bool, error) {
@@ -19,4 +21,13 @@ func CheckValidContent(request *http.Request, acceptedContent string) (bool, err
 		return false, errors.New("")
 	}
 	return true, nil
+}
+
+func CreateRandomID(length int) (string, error) {
+	rand.Seed(time.Now().UnixNano())
+	bytes := make([]byte, length)
+	for i := 0; i < length; i++ {
+		bytes[i] = byte(65 + rand.Intn(90-65))
+	}
+	return string(bytes), nil
 }
