@@ -35,3 +35,18 @@ func (wm *WalletModel) Create(fn, ln string) (int, error) {
 	return int(id), nil
 
 }
+
+func (wm *WalletModel) GetSingle(id string) (*Wallet, error) {
+	stmt := `SELECT * FROM wallets WHERE id = ?`
+
+	walletRef := &Wallet{}
+
+	row := wm.DB.QueryRow(stmt, id)
+
+	err := row.Scan(&walletRef.ID, &walletRef.FirstName, &walletRef.LastName, &walletRef.CreatedAt, &walletRef.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
+	return walletRef, nil
+
+}
