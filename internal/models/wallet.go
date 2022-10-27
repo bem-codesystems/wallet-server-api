@@ -48,5 +48,25 @@ func (wm *WalletModel) GetSingle(id string) (*Wallet, error) {
 		return nil, err
 	}
 	return walletRef, nil
+}
 
+func (wm *WalletModel) GetList() ([]*Wallet, error) {
+	stmt := `SELECT * FROM wallets ORDER BY first_name LIMIT 20`
+
+	var walletList []*Wallet
+
+	rows, err := wm.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		wallet := &Wallet{}
+		err := rows.Scan(&wallet.ID, &wallet.FirstName, &wallet.LastName, &wallet.CreatedAt, &wallet.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+		walletList = append(walletList, wallet)
+	}
+	return walletList, nil
 }
