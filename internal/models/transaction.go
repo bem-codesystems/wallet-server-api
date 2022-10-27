@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"time"
+	"unicode/utf8"
 	"wallet-server/helpers"
 )
 
@@ -34,4 +35,21 @@ func (t *TransactionModel) Create(tp uint, value float32, walletID string) (int,
 		return 0, err
 	}
 	return int(id), nil
+}
+
+func (t *TransactionModel) Get(id string) (*Transaction, error) {
+	stmt := ""
+	if utf8.RuneCountInString(id) == 100 {
+		stmt += `SELECT * FROM transactions WHERE wallet_id = ?`
+
+	} else {
+		stmt += `SELECT * FROM transactions WHERE id = ?`
+	}
+	tn := &Transaction{}
+	row := t.DB.QueryRow(stmt, id)
+	err := row.Scan(&tn.ID, &tn.TransactionType, &tn.Value, &tn.CreatedAt, &tn.WalletID)
+	if err != nil {
+		return nil, err
+	}
+	return tn, nil
 }
