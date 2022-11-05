@@ -2,11 +2,13 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
 	"os"
 	"wallet-server/config"
+	"wallet-server/helpers"
 	"wallet-server/internal/client"
 	"wallet-server/internal/models"
 	"wallet-server/routes"
@@ -14,9 +16,13 @@ import (
 
 func main() {
 
+	user := helpers.CheckMainStringVars(os.Getenv("DB_USER"), "root")
+	pwd := helpers.CheckMainStringVars(os.Getenv("DB_PASSWORD"), "password")
+	dbName := helpers.CheckMainStringVars(os.Getenv("DB_NAME"), "bcs")
+
 	addr := flag.String("addr", ":4000", "Server Network Address")
 
-	dsn := flag.String("dsn", "root:mypassword@/snippetbox?parseTime=true", "Data Source Name")
+	dsn := flag.String("dsn", fmt.Sprintf("%s:%s@/%s?parseTime=true", user, pwd, dbName), "Data Source Name")
 
 	flag.Parse()
 

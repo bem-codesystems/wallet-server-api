@@ -4,7 +4,9 @@ import (
 	"errors"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 func CheckRequestMethod(request *http.Request, allowedMethod string) (bool, error) {
@@ -30,4 +32,12 @@ func CreateRandomID(length int) (string, error) {
 		bytes[i] = byte(65 + rand.Intn(90-65))
 	}
 	return string(bytes), nil
+}
+
+func CheckMainStringVars(keyToCheck string, replacer string) error {
+	if strings.TrimSpace(keyToCheck) == "" || utf8.RuneCountInString(keyToCheck) == 0 {
+		keyToCheck = replacer
+	}
+	return errors.New("invalid key checked")
+
 }
