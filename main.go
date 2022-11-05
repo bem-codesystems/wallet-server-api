@@ -36,6 +36,7 @@ func main() {
 		InfoLog:     infoLog,
 		Wallet:      &models.WalletModel{DB: db},
 		Transaction: &models.TransactionModel{DB: db},
+		User:        &models.UserModel{DB: db},
 	}
 
 	server := http.Server{

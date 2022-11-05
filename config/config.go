@@ -10,4 +10,5 @@ type Application struct {
 	InfoLog     *log.Logger
 	Wallet      *models.WalletModel
 	Transaction *models.TransactionModel
+	User        *models.UserModel
 }
