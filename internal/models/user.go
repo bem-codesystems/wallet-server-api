@@ -64,7 +64,14 @@ func (u *UserModel) Get(userID string) (*User, error) {
 
 	row := u.DB.QueryRowContext(ctx, stmt, userID)
 
-	err := row.Scan(&user.ID, &user.Email, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.HasWallet, &user.WalletID)
+	err := row.Scan(
+		&user.ID,
+		&user.Email,
+		&user.Name,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+		&user.HasWallet,
+		&user.WalletID)
 	if err != nil {
 		return &User{}, err
 	}
@@ -88,7 +95,13 @@ func (u *UserModel) GetAll() ([]*User, error) {
 	for rows.Next() {
 		user := &User{}
 
-		err := rows.Scan(&user.ID, &user.Email, &user.CreatedAt, &user.UpdatedAt, &user.HasWallet, &user.WalletID)
+		err := rows.Scan(
+			&user.ID,
+			&user.Email,
+			&user.CreatedAt,
+			&user.UpdatedAt,
+			&user.HasWallet,
+			&user.WalletID)
 		if err != nil {
 			return nil, err
 		}
