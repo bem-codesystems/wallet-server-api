@@ -60,3 +60,24 @@ func (u *UserModel) Get(userID string) (*User, error) {
 	}
 	return user, nil
 }
+
+func (u *UserModel) GetAll() ([]*User, error) {
+	stmt := `SELECT * FROM users ORDER BY name LIMIT 20`
+
+	var userList []*User
+
+	rows, err := u.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		user := &User{}
+
+		err := rows.Scan(&user.ID, &user.Email, &user.CreatedAt, &user.UpdatedAt, &user.HasWallet, &user.WalletID)
+		if err != nil {
+			return nil, err
+		}
+		userList = append(userList, user)
+	}
+	return userList, nil
+}
