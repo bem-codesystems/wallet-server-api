@@ -22,7 +22,11 @@ func main() {
 
 	addr := flag.String("addr", ":4000", "Server Network Address")
 
-	dsn := flag.String("dsn", fmt.Sprintf("%s:%s@/%s?parseTime=true", user, pwd, dbName), "Data Source Name")
+	dsn := flag.String("dsn",
+		fmt.Sprintf("%s:%s@/%s?parseTime=true",
+			user,
+			pwd,
+			dbName), "Data Source Name")
 
 	flag.Parse()
 

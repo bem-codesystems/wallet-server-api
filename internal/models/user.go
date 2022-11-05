@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"database/sql"
 	"time"
 	"wallet-server/helpers"
@@ -48,11 +49,16 @@ func (u *UserModel) Create(name string, email string) (int, error) {
 }
 
 func (u *UserModel) Get(userID string) (*User, error) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+
+	defer cancel()
+
 	stmt := `SELECT * FROM users WHERE id = ?`
 
 	var user *User
 
-	row := u.DB.QueryRow(stmt, userID)
+	row := u.DB.QueryRowContext(ctx, stmt, userID)
 
 	err := row.Scan(&user.ID, &user.Email, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.HasWallet, &user.WalletID)
 	if err != nil {
@@ -62,11 +68,16 @@ func (u *UserModel) Get(userID string) (*User, error) {
 }
 
 func (u *UserModel) GetAll() ([]*User, error) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+
+	defer cancel()
+
 	stmt := `SELECT * FROM users ORDER BY name LIMIT 20`
 
 	var userList []*User
 
-	rows, err := u.DB.Query(stmt)
+	rows, err := u.DB.QueryContext(ctx, stmt)
 	if err != nil {
 		return nil, err
 	}
