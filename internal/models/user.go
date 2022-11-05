@@ -35,7 +35,7 @@ func (u *UserModel) Create(hasWallet bool, name string, email string) (int, erro
 		return 0, err
 	}
 
-	res, err := u.DB.Exec(stmt, hash, false, name, email)
+	res, err := u.DB.Exec(stmt, hash, false, name, email, "")
 	if err != nil {
 		return 0, err
 	}
