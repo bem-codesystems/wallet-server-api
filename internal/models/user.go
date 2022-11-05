@@ -20,7 +20,7 @@ type UserModel struct {
 	DB *sql.DB
 }
 
-func (u *UserModel) Create(hasWallet bool, name string, email string) (int, error) {
+func (u *UserModel) Create(name string, email string) (int, error) {
 	stmt := `INSERT INTO users (
                    id,
                    has_wallet,
@@ -45,4 +45,18 @@ func (u *UserModel) Create(hasWallet bool, name string, email string) (int, erro
 		return 0, err
 	}
 	return int(id), err
+}
+
+func (u *UserModel) Get(userID string) (*User, error) {
+	stmt := `SELECT * FROM users WHERE id = ?`
+
+	var user *User
+
+	row := u.DB.QueryRow(stmt, userID)
+
+	err := row.Scan(&user.ID, &user.Email, &user.Name, &user.CreatedAt, &user.UpdatedAt, &user.HasWallet, &user.WalletID)
+	if err != nil {
+		return &User{}, err
+	}
+	return user, nil
 }
